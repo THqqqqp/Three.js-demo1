@@ -1,13 +1,11 @@
 <script setup>
 
+import ContentOne from "@/components/content/ContentOne.vue";
 </script>
 
 <template>
-  <div>
-    <h1>Index</h1>
-  </div>
+  <ContentOne/>
 </template>
 
-<style scoped lang="scss">
-
+<style lang="scss" scoped>
 </style>
