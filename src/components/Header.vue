@@ -4,7 +4,7 @@
 
 <template>
   <header class="header">
-    <h1>Header</h1>
+    <h1>Three.js建模</h1>
   </header>
 </template>
 

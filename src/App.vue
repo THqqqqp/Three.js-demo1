@@ -12,13 +12,7 @@ import Header from "@/components/Header.vue";
 
 <style lang="scss" scoped>
 #app {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
 
-  router-view {
-    flex: 1;
-  }
 }
 
 

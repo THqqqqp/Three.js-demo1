@@ -7,37 +7,59 @@ const containerRef = ref();
 const scene = new THREE.Scene();
 // 创建相机
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.set(-10, 20, 20)
+camera.position.set(-15, 50, 20)
 camera.lookAt(scene.position)
 // 创建渲染器
-const renderer = new THREE.WebGLRenderer();
-// 透明背景
-renderer.setClearColor(new THREE.Color(0x000000), 0);
+const renderer = new THREE.WebGLRenderer({alpha: true});
+renderer.shadowMap.enabled = true
+
 // 创建坐标轴
 const axes = new THREE.AxesHelper(90);
 scene.add(axes);
 
 // 球体模型
 const sphereGeometry = new THREE.SphereGeometry(10, 20, 20);
-const sphereMaterial = new THREE.MeshBasicMaterial({color: 0x7777ff, wireframe: true});
+const sphereMaterial = new THREE.MeshLambertMaterial({
+  color: '#ff0000',
+  wireframe: false
+});
 const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+sphere.position.set(0, 10, 0);
+sphere.castShadow = true;
 scene.add(sphere);
 
 // 正方体模型，物理材质
-const cubeGeometry = new THREE.BoxGeometry(20, 20, 20, 1, 1, 1);
-const cubeMaterial = new THREE.MeshBasicMaterial({color: '#222222', wireframe: true});
+const cubeGeometry = new THREE.BoxGeometry(10, 10, 10, 1, 1, 1);
+const cubeMaterial = new THREE.MeshLambertMaterial({
+  color: '#222222',
+  wireframe: false
+});
 const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
-cube.position.set(40, 0, 0);
+cube.position.set(25, 5, 0);
+cube.castShadow = true;
 scene.add(cube);
 
-// 平面体，放在y正半轴上
-const planeGeometry = new THREE.PlaneGeometry(50, 50);
-const planeMaterial = new THREE.MeshBasicMaterial({color: '#222222', side: THREE.DoubleSide});
+// 平面体，放在水平面
+const planeGeometry = new THREE.PlaneGeometry(100, 50);
+const planeMaterial = new THREE.MeshLambertMaterial({
+  color: '#bec0b2',
+  side: THREE.DoubleSide
+});
 const plane = new THREE.Mesh(planeGeometry, planeMaterial);
-plane.rotation.x = -1 * Math.PI / 2;
 plane.position.set(0, 0, 0);
+plane.rotation.x = Math.PI / 2;
+plane.receiveShadow = true
 scene.add(plane);
 
+// 添加灯光
+const pointLight = new THREE.PointLight('#ffffff', 1,0,0);
+pointLight.position.set(-20, 100, -10);
+pointLight.castShadow = true;
+scene.add(pointLight);
+
+// 添加环境光
+const ambientLight = new THREE.AmbientLight('#ffffff', 2);
+scene.add(ambientLight);
 
 onMounted(() => {
   // 设置渲染器的大小
@@ -51,7 +73,7 @@ onMounted(() => {
 
 <template>
   <div id="root">
-    <h2>一、创建一个基本的three坐标系</h2>
+    <h2>二、基于光照展示不同效果</h2>
     <div ref="containerRef" class="container"></div>
   </div>
 </template>
